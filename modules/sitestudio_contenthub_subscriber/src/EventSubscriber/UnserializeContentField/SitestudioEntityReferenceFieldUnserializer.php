@@ -4,16 +4,14 @@ namespace Drupal\sitestudio_contenthub_subscriber\EventSubscriber\UnserializeCon
 
 use Drupal\acquia_contenthub\AcquiaContentHubEvents;
 use Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent;
-use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityDependencyTrait;
+use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityReferenceBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Entity/image/file field reference handling.
  */
-class SitestudioEntityReferenceFieldUnserializer implements EventSubscriberInterface {
-
-  use FieldEntityDependencyTrait;
+class SitestudioEntityReferenceFieldUnserializer extends FieldEntityReferenceBase {
 
   /**
    * EntityTypeManager service.
