@@ -4,16 +4,16 @@ namespace Drupal\sitestudio_contenthub_subscriber\EventSubscriber\UnserializeCon
 
 use Drupal\acquia_contenthub\AcquiaContentHubEvents;
 use Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent;
-use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityDependencyTrait;
+use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityReferenceBase;
+use Drupal\acquia_contenthub\PrunedEntitiesTracker;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Entity/image/file field reference handling.
  */
-class SitestudioEntityReferenceFieldUnserializer implements EventSubscriberInterface {
-
-  use FieldEntityDependencyTrait;
+class SitestudioEntityReferenceFieldUnserializer extends FieldEntityReferenceBase implements EventSubscriberInterface {
 
   /**
    * EntityTypeManager service.
@@ -25,10 +25,13 @@ class SitestudioEntityReferenceFieldUnserializer implements EventSubscriberInter
   /**
    * SitestudioEntityReferenceFieldSerializer constructor.
    *
+   * @param \Psr\Log\LoggerInterface $logger
+   * @param \Drupal\acquia_contenthub\PrunedEntitiesTracker $tracker
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   EntityTypeManager service.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+  public function __construct(LoggerInterface $logger, PrunedEntitiesTracker $tracker, EntityTypeManagerInterface $entityTypeManager) {
+    parent::__construct($logger, $tracker);
     $this->entityTypeManager = $entityTypeManager;
   }
 
